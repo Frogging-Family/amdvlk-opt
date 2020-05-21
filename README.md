@@ -16,6 +16,6 @@ You can also pass `VK_ICD_FILENAMES=/opt/amdvlk/etc/vulkan/icd.d/amd_icd64.json:
 ## Build:
 ```
 git clone https://github.com/Frogging-Family/amdvlk-opt.git
-amdvlk-opt
+cd amdvlk-opt
 makepkg -si
 ```
