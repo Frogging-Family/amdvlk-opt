@@ -34,7 +34,7 @@ provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
 makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git')
 makedepends+=('python2') # spvgen
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('f20cbe226668650188931b34ce26da8ce5f34b7870773cacc79e49f7c56c4b02')
+sha256sums=('19548a78ba0240a5e2c23f778fc009a9a44ec8b61d19a46db3265512671c6d8d')
             
 prepare() {
   local nrepos path name revision
