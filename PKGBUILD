@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2021.Q1.2
+pkgver=2021.Q1.3
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -34,7 +34,7 @@ provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
 makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git')
 makedepends+=('python2') # spvgen
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('6f000733b8bdb536634ab7e8abde1dd386f4d6c4c3ee345392cbba206a5c3042')
+sha256sums=('6920031645dd950454180a271565fa21771f77ac1bc99128a825227c21077bd9')
             
 prepare() {
   local nrepos path name revision
@@ -53,9 +53,6 @@ prepare() {
       popd
     (( nrepos-- ))
   done
-  
-  # fix build with gcc9+
-  sed -i "s/-Werror//g" ${srcdir}/pal/shared/gpuopen/cmake/AMD.cmake
 }
 
 build() {
@@ -69,7 +66,8 @@ build() {
     -G Ninja
     
   ninja -C builds/Release64
-  ninja -C builds/Release64 spvgen
+  # only for compiling glsl with the standalone compiler (amdllpc)
+  #ninja -C builds/Release64 spvgen
 
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
@@ -95,7 +93,7 @@ package() {
   install xgl/builds/Release64/icd/amdvlk64.so "${pkgdir}"/opt/amdvlk/lib/x86_64-linux-gnu/
   install xgl/builds/Release/icd/amdvlk32.so "${pkgdir}"/opt/amdvlk/lib/i386-linux-gnu/
 
-  install xgl/builds/Release64/spvgen/spvgen.so ${pkgdir}/opt/amdvlk/lib/x86_64-linux-gnu/
+  #install xgl/builds/Release64/spvgen/spvgen.so ${pkgdir}/opt/amdvlk/lib/x86_64-linux-gnu/
 
   install AMDVLK/json/Redhat/amd_icd64.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
   install AMDVLK/json/Redhat/amd_icd32.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
