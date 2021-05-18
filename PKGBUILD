@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2021.Q2.1
+pkgver=2021.Q2.3
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -34,7 +34,7 @@ provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
 makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git')
 makedepends+=('python2') # spvgen
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('c491929f959404527816ec9a88755916282aceeb191cd7bfb0440682e202e186')
+sha256sums=('ec17d7f7c7af5adaa2fee7744321da3665be215105df7c3fc72bfeff2575a509')
             
 prepare() {
   local nrepos path name revision
