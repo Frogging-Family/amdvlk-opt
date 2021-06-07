@@ -115,3 +115,13 @@ package() {
   msg2 ""
   msg2 "#################################################################"
 }
+
+function exit_cleanup {
+  # Sanitization
+  rm -rf "$srcdir"
+  msg2 'exit cleanup done'
+
+  remove_deps
+}
+
+trap exit_cleanup EXIT
