@@ -95,8 +95,8 @@ package() {
 
   #install xgl/builds/Release64/spvgen/spvgen.so ${pkgdir}/opt/amdvlk/lib/x86_64-linux-gnu/
 
-  install AMDVLK/json/Redhat/amd_icd64.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
-  install AMDVLK/json/Redhat/amd_icd32.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
+  install xgl/builds/Release64/icd/amd_icd64.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
+  install xgl/builds/Release64/icd/amd_icd32.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
 
   install AMDVLK/LICENSE.txt "${pkgdir}"/usr/share/licenses/${pkgname}/
   
