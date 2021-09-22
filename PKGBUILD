@@ -100,8 +100,8 @@ package() {
 
   install AMDVLK/LICENSE.txt "${pkgdir}"/usr/share/licenses/${pkgname}/
   
-  sed -i "s|/usr/lib64/amdvlk64.so|/opt/amdvlk/lib/x86_64-linux-gnu/amdvlk64.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd64.json
-  sed -i "s|/usr/lib/amdvlk32.so|/opt/amdvlk/lib/i386-linux-gnu/amdvlk64.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd32.json
+  sed -i "s|/usr/lib/amdvlk64.so|/opt/amdvlk/lib/x86_64-linux-gnu/amdvlk64.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd64.json
+  sed -i "s|/usr/lib/amdvlk32.so|/opt/amdvlk/lib/i386-linux-gnu/amdvlk32.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd32.json
 
   msg2 "#################################################################"
   msg2 ""
