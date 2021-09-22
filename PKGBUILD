@@ -35,7 +35,12 @@ makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'li
 makedepends+=('python2') # spvgen
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
 sha256sums=('99d08ba0cba0d0181775203bce84b8a262967314b201acc83bf102fc639fbd75')
-            
+
+# Workaround for chroot
+if [[ "$PATH" != *"/bin/vendor_perl"* ]];then
+  export PATH="$PATH:/usr/bin/vendor_perl"
+fi
+
 prepare() {
   local nrepos path name revision
   
