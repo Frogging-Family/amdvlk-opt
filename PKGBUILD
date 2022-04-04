@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2022.Q1.2
+pkgver=2022.Q1.3
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -32,9 +32,10 @@ url="https://github.com/GPUOpen-Drivers"
 license=('MIT')
 provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
 makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git')
-makedepends+=('python2') # spvgen
+makedepends+=('python2' 'clang' 'lld')
+options=('!lto')
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('9d639e5ba246894ad4ed33c0197c06c7231e799cccd24e1ae3e5baacec9f47e1')
+sha256sums=('1ffed5af4d7109e0762b101ca65e608c78e6703ee3caceaf05f17b72f3576138')
 
 # Workaround for chroot
 if [[ "$PATH" != *"/bin/vendor_perl"* ]];then
@@ -64,8 +65,15 @@ build() {
   cd ${srcdir}/spvgen/external
   python2 fetch_external_sources.py
 
+  # use lld and clang to fix linking error
+  # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release64 \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DLLVM_USE_LINKER=lld \
+    -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' \
+    -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_WAYLAND_SUPPORT=On \
     -G Ninja
@@ -76,8 +84,15 @@ build() {
 
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
+  # use lld and clang to fix linking error
+  # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DLLVM_USE_LINKER=lld \
+    -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' \
+    -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_FLAGS=-m32 \
     -DCMAKE_CXX_FLAGS=-m32 \
