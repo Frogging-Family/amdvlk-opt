@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2022.Q1.3
+pkgver=2022.Q2.1
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -35,7 +35,7 @@ makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'li
 makedepends+=('python2' 'clang' 'lld')
 options=('!lto')
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('1ffed5af4d7109e0762b101ca65e608c78e6703ee3caceaf05f17b72f3576138')
+sha256sums=('d839e711164e9603579289776c889b5dc77b0b43579e9e229405018d3430ceec')
 
 # Workaround for chroot
 if [[ "$PATH" != *"/bin/vendor_perl"* ]];then
