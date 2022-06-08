@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2022.Q2.1
+pkgver=2022.Q2.2
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -32,10 +32,9 @@ url="https://github.com/GPUOpen-Drivers"
 license=('MIT')
 provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
 makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git')
-makedepends+=('python2' 'clang' 'lld')
 options=('!lto')
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('d839e711164e9603579289776c889b5dc77b0b43579e9e229405018d3430ceec')
+sha256sums=('516f856b6eb28b582449242275ee6c63d44f7e05436fb4c0fe199c41764b8874')
 
 # Workaround for chroot
 if [[ "$PATH" != *"/bin/vendor_perl"* ]];then
@@ -63,7 +62,7 @@ prepare() {
 
 build() {
   cd ${srcdir}/spvgen/external
-  python2 fetch_external_sources.py
+  python fetch_external_sources.py
 
   # use lld and clang to fix linking error
   # https://github.com/GPUOpen-Drivers/llpc/issues/1645
