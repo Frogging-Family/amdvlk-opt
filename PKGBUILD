@@ -31,7 +31,7 @@ arch=(x86_64)
 url="https://github.com/GPUOpen-Drivers"
 license=('MIT')
 provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
-makedepends=('perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git')
+makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git')
 options=('!lto')
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
 sha256sums=('19e1b4344b76aa52429f06bf083ba90070c2415bda90f0991dddebf846e84752')
@@ -61,9 +61,6 @@ prepare() {
 }
 
 build() {
-  cd ${srcdir}/spvgen/external
-  python fetch_external_sources.py
-
   # use lld and clang to fix linking error
   # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
@@ -117,7 +114,7 @@ package() {
   install xgl/builds/Release64/icd/amd_icd64.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
   install xgl/builds/Release/icd/amd_icd32.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
 
-  install AMDVLK/LICENSE.txt "${pkgdir}"/usr/share/licenses/${pkgname}/
+  install AMDVLK-v-${pkgver}/LICENSE.txt "${pkgdir}"/usr/share/licenses/${pkgname}/
   
   sed -i "s|/usr/lib/amdvlk64.so|/opt/amdvlk/lib/x86_64-linux-gnu/amdvlk64.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd64.json
   sed -i "s|/usr/lib/amdvlk32.so|/opt/amdvlk/lib/i386-linux-gnu/amdvlk32.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd32.json
