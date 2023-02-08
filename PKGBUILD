@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2022.Q4.4
+pkgver=2023.Q1.1
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -34,7 +34,7 @@ provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
 makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git' 'glslang' 'ocaml-stdlib-shims')
 options=('!lto')
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('19e1b4344b76aa52429f06bf083ba90070c2415bda90f0991dddebf846e84752')
+sha256sums=('5511ccf9ff052808b8305aa46acd4a807fd7d95a7520d7d4a3fd8893f7937ffa')
 
 # Workaround for chroot
 if [[ "$PATH" != *"/bin/vendor_perl"* ]];then
@@ -58,6 +58,13 @@ prepare() {
       popd
     (( nrepos-- ))
   done
+
+  # Workaround to clone the llvm-dialects repo to the right place for the compiler to work
+  rm -rf ${srcdir}/llpc/imported/llvm-dialects
+  git clone https://github.com/GPUOpen-Drivers/llvm-dialects ${srcdir}/llpc/imported/llvm-dialects
+  cd ${srcdir}/llpc/imported/llvm-dialects/include/llvm-dialects
+  git checkout 0ac13b7b623fa7770952ded7f7995c573993a579
+
 }
 
 build() {
@@ -65,6 +72,7 @@ build() {
   # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release64 \
+    -DCXX_STANDARD=17 \
     -DCMAKE_C_COMPILER=clang \
     -DCMAKE_CXX_COMPILER=clang++ \
     -DLLVM_USE_LINKER=lld \
@@ -84,6 +92,7 @@ build() {
   # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release \
+    -DCXX_STANDARD=17 \
     -DCMAKE_C_COMPILER=clang \
     -DCMAKE_CXX_COMPILER=clang++ \
     -DLLVM_USE_LINKER=lld \
