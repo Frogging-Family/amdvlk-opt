@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2023.Q2.2
+pkgver=2023.Q2.3
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -33,8 +33,10 @@ license=('MIT')
 provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
 makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git' 'glslang' 'ocaml-stdlib-shims')
 options=('!lto')
-source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
-sha256sums=('34878e1fcd4cf43dca378be7b3b9df47f665692f62e4cce965adbeb35cb86167')
+source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz"
+        "cstdint.patch")
+sha256sums=('0fd70d472200c98dabdf86b58a0cf7a1af1a46dd32d02d165676faa8dedf16f7'
+            '4e5d14b368ba03e443b329a65416b53323b9057ccebffcb61de1e440fa7d549f')
 
 # Workaround for chroot
 if [[ "$PATH" != *"/bin/vendor_perl"* ]];then
@@ -51,20 +53,22 @@ prepare() {
     path=$(xpath -q -e //project[$nrepos]/@path AMDVLK-v-${pkgver}/default.xml | sed 's/ path="drivers\/\(.*\)"/\1/g')
     name=$(xpath -q -e //project[$nrepos]/@name AMDVLK-v-${pkgver}/default.xml | sed 's/ name="\(.*\)"/\1/g')
     revision=$(xpath -q -e //project[$nrepos]/@revision AMDVLK-v-${pkgver}/default.xml | sed 's/ revision="\(.*\)"/\1/g')
-    git clone https://github.com/GPUOpen-Drivers/$name $path || true
+    git clone --recurse-submodules https://github.com/GPUOpen-Drivers/$name $path || true
       pushd $path
         git pull https://github.com/GPUOpen-Drivers/$name
+        git submodule update
         git checkout $revision
       popd
     (( nrepos-- ))
   done
 
+  patch -Np1 -i cstdint.patch
+
   # Workaround to clone the llvm-dialects repo to the right place for the compiler to work
   rm -rf ${srcdir}/llpc/imported/llvm-dialects
   git clone https://github.com/GPUOpen-Drivers/llvm-dialects ${srcdir}/llpc/imported/llvm-dialects
   cd ${srcdir}/llpc/imported/llvm-dialects/include/llvm-dialects
-  git checkout master
-  #git checkout afc915734818b9566befd00ea6ae8dc0b4f740e8
+  git checkout f44e737f5e13eca803f465fc86532c24608c4daf
 }
 
 build() {
