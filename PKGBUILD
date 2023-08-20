@@ -65,10 +65,10 @@ prepare() {
   patch -Np1 -i cstdint.patch
 
   # Workaround to clone the llvm-dialects repo to the right place for the compiler to work
-  rm -rf ${srcdir}/llpc/imported/llvm-dialects
-  git clone https://github.com/GPUOpen-Drivers/llvm-dialects ${srcdir}/llpc/imported/llvm-dialects
-  cd ${srcdir}/llpc/imported/llvm-dialects/include/llvm-dialects
-  git checkout f44e737f5e13eca803f465fc86532c24608c4daf
+  #rm -rf ${srcdir}/llpc/imported/llvm-dialects
+  #git clone https://github.com/GPUOpen-Drivers/llvm-dialects ${srcdir}/llpc/imported/llvm-dialects
+  #cd ${srcdir}/llpc/imported/llvm-dialects/include/llvm-dialects
+  #git checkout f44e737f5e13eca803f465fc86532c24608c4daf
 }
 
 build() {
