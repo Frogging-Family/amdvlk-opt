@@ -24,7 +24,7 @@ plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
 plain '             `.-:///////:-.`'
 
 pkgname=amdvlk-tkg
-pkgver=2023.Q3.3
+pkgver=2023.Q4.2
 pkgrel=1
 pkgdesc="AMD's standalone Vulkan driver"
 arch=(x86_64)
@@ -35,7 +35,7 @@ makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib3
 options=('!lto')
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz"
         "cstdint.patch")
-sha256sums=('5156ec8b2d6fd1cb7173ec707f495bc1cd1de15f5441f48e59ad9f817b9c68f5'
+sha256sums=('61cd3b82e84afb6bd78969724f7414a3df36d902f120f2ed2a265cc49a9f8ced'
             '4e5d14b368ba03e443b329a65416b53323b9057ccebffcb61de1e440fa7d549f')
 
 # Workaround for chroot
