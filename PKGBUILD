@@ -76,12 +76,6 @@ build() {
   # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release64 \
-    -DCXX_STANDARD=17 \
-    -DCMAKE_C_COMPILER=clang \
-    -DCMAKE_CXX_COMPILER=clang++ \
-    -DLLVM_USE_LINKER=lld \
-    -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' \
-    -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_WAYLAND_SUPPORT=On \
     -G Ninja
@@ -96,12 +90,6 @@ build() {
   # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release \
-    -DCXX_STANDARD=17 \
-    -DCMAKE_C_COMPILER=clang \
-    -DCMAKE_CXX_COMPILER=clang++ \
-    -DLLVM_USE_LINKER=lld \
-    -DCMAKE_EXE_LINKER_FLAGS='-fuse-ld=lld' \
-    -DCMAKE_SHARED_LINKER_FLAGS='-fuse-ld=lld' \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_FLAGS=-m32 \
     -DCMAKE_CXX_FLAGS=-m32 \
