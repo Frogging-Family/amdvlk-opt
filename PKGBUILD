@@ -31,7 +31,7 @@ arch=(x86_64)
 url="https://github.com/GPUOpen-Drivers"
 license=('MIT')
 provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
-makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git' 'glslang' 'ocaml-stdlib-shims' 'clang' 'lib32-clang')
+makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git' 'glslang' 'ocaml-stdlib-shims' 'clang' 'lib32-clang' 'python-jinja')
 options=('!lto')
 source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz"
         "cstdint.patch")
