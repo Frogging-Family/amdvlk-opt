@@ -63,17 +63,9 @@ prepare() {
   done
 
   patch -Np1 -i cstdint.patch
-
-  # Workaround to clone the llvm-dialects repo to the right place for the compiler to work
-  #rm -rf ${srcdir}/llpc/imported/llvm-dialects
-  #git clone https://github.com/GPUOpen-Drivers/llvm-dialects ${srcdir}/llpc/imported/llvm-dialects
-  #cd ${srcdir}/llpc/imported/llvm-dialects/include/llvm-dialects
-  #git checkout f44e737f5e13eca803f465fc86532c24608c4daf
 }
 
 build() {
-  # use lld and clang to fix linking error
-  # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release64 \
     -DCMAKE_BUILD_TYPE=Release \
@@ -81,13 +73,9 @@ build() {
     -G Ninja
     
   ninja -C builds/Release64
-  # only for compiling glsl with the standalone compiler (amdllpc)
-  #ninja -C builds/Release64 spvgen
 
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-  # use lld and clang to fix linking error
-  # https://github.com/GPUOpen-Drivers/llpc/issues/1645
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release \
     -DCMAKE_BUILD_TYPE=Release \
@@ -109,8 +97,6 @@ package() {
 
   install xgl/builds/Release64/icd/amdvlk64.so "${pkgdir}"/opt/amdvlk/lib/x86_64-linux-gnu/
   install xgl/builds/Release/icd/amdvlk32.so "${pkgdir}"/opt/amdvlk/lib/i386-linux-gnu/
-
-  #install xgl/builds/Release64/spvgen/spvgen.so ${pkgdir}/opt/amdvlk/lib/x86_64-linux-gnu/
 
   install xgl/builds/Release64/icd/amd_icd64.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
   install xgl/builds/Release/icd/amd_icd32.json "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/
