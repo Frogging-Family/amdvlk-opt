@@ -16,6 +16,7 @@ jobs:
           useradd user -G wheel && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
           chown user -R ..
           chown user -R /tmp
+          touch ci
           su user -c "yes ''|PKGDEST=/tmp/amdvlk-opt makepkg --noconfirm -s"
 
       - name: Archive the artifacts

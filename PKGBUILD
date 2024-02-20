@@ -63,6 +63,9 @@ prepare() {
   done
 
   patch -Np1 -i cstdint.patch
+  if [ -e ./ci ]; then
+    ( cd ${srcdir}/llvm-project && rm -rf .git )
+  fi
 }
 
 build() {
