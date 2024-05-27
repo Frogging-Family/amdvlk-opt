@@ -31,12 +31,10 @@ arch=(x86_64)
 url="https://github.com/GPUOpen-Drivers"
 license=('MIT')
 provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
-makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git' 'glslang' 'ocaml-stdlib-shims' 'clang' 'lib32-clang' 'python-jinja')
+makedepends=('directx-shader-compiler' 'perl-xml-xpath' 'python' 'wayland' 'lib32-wayland' 'libxrandr' 'lib32-libxrandr' 'xorg-server-devel' 'cmake' 'ninja' 'git' 'glslang' 'ocaml-stdlib-shims' 'clang' 'lib32-clang' 'python-jinja' 'python-ruamel-yaml')
 options=('!lto')
-source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz"
-        "cstdint.patch")
-sha256sums=('ede2ad261f68da64bb3a7ca47c6debfc42c171d3bd9bd91a01e3727ff5a7d4c8'
-            '4e5d14b368ba03e443b329a65416b53323b9057ccebffcb61de1e440fa7d549f')
+source=("https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${pkgver}.tar.gz")
+sha256sums=('ede2ad261f68da64bb3a7ca47c6debfc42c171d3bd9bd91a01e3727ff5a7d4c8')
 
 # Workaround for chroot
 if [[ "$PATH" != *"/bin/vendor_perl"* ]];then
