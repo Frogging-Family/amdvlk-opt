@@ -69,6 +69,7 @@ build() {
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release64 \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DBUILD_WAYLAND_SUPPORT=On \
     -G Ninja
     
@@ -79,6 +80,7 @@ build() {
   cd ${srcdir}/xgl
   cmake -H. -Bbuilds/Release \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_C_FLAGS=-m32 \
     -DCMAKE_CXX_FLAGS=-m32 \
     -DLLVM_TARGET_ARCH:STRING=i686 \
