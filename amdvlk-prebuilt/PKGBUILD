@@ -1,0 +1,80 @@
+# Created by: Tk-Glitch <ti3nou at gmail dot com>
+
+plain '       .---.`               `.---.'
+plain '    `/syhhhyso-           -osyhhhys/`'
+plain '   .syNMdhNNhss/``.---.``/sshNNhdMNys.'
+plain '   +sdMh.`+MNsssssssssssssssNM+`.hMds+'
+plain '   :syNNdhNNhssssssssssssssshNNhdNNys:'
+plain '    /ssyhhhysssssssssssssssssyhhhyss/'
+plain '    .ossssssssssssssssssssssssssssso.'
+plain '   :sssssssssssssssssssssssssssssssss:'
+plain '  /sssssssssssssssssssssssssssssssssss/'
+plain ' :sssssssssssssoosssssssoosssssssssssss:'
+plain ' osssssssssssssoosssssssoossssssssssssso'
+plain ' osssssssssssyyyyhhhhhhhyyyyssssssssssso'
+plain ' /yyyyyyhhdmmmmNNNNNNNNNNNmmmmdhhyyyyyy/'
+plain '  smmmNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmmms'
+plain '   /dNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNd/'
+plain '    `:sdNNNNNNNNNNNNNNNNNNNNNNNNNds:`'
+plain '       `-+shdNNNNNNNNNNNNNNNdhs+-`'
+plain '             `.-:///////:-.`'
+
+pkgname=amdvlk-tkg
+pkgver=2025.Q1.3
+pkgrel=1
+pkgdesc="AMD's standalone Vulkan driver"
+arch=(x86_64)
+url="https://github.com/GPUOpen-Drivers"
+license=('MIT')
+provides=('vulkan-driver' 'lib32-vulkan-driver' 'amdvlk' 'lib32-amdvlk')
+license=('custom:AMD')
+
+source=(https://github.com/GPUOpen-Drivers/AMDVLK/releases/download/v-${pkgver}/amdvlk_${pkgver}_amd64.deb
+        https://github.com/GPUOpen-Drivers/AMDVLK/releases/download/v-${pkgver}/amdvlk_${pkgver}_i386.deb)
+sha256sums=('601572581d6ab5e36a9037de32e17b316c56fb7f14c54812177126725025bae8'
+            'd10ef64fc4eaa25202d6476ba0391f718955ccf0c52e4064eeab17675059dc98')
+
+# extracts a debian package
+# $1: deb file to extract
+extract_deb() {
+	local tmpdir="$(basename "${1%.deb}")"
+	rm -Rf "$tmpdir"
+	mkdir "$tmpdir"
+	cd "$tmpdir"
+	ar x "$1"
+	tar -C "${pkgdir}" -xzf data.tar.*
+}
+
+package_amdvlk-tkg () {
+	pkgdesc="The AMDVLK Vulkan driver"
+	arch=('x86_64')
+
+	extract_deb "${srcdir}"/amdvlk_${pkgver}_amd64.deb
+	extract_deb "${srcdir}"/amdvlk_${pkgver}_i386.deb
+
+	mkdir -p "${pkgdir}"/opt/amdvlk
+	mv "${pkgdir}"/etc "${pkgdir}"/opt/amdvlk/
+	mv "${pkgdir}"/usr/lib "${pkgdir}"/opt/amdvlk/
+
+	chmod -R 755 "${pkgdir}"/opt/amdvlk/lib/x86_64-linux-gnu
+	chmod -R 755 "${pkgdir}"/opt/amdvlk/lib/i386-linux-gnu
+	chmod -R 755 "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d
+	chmod -R 755 "${pkgdir}"/usr/share/doc/amdvlk
+
+	sed -i "s|/usr/lib/x86_64-linux-gnu/amdvlk64.so|/opt/amdvlk/lib/x86_64-linux-gnu/amdvlk64.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd64.json
+	sed -i "s|/usr/lib/i386-linux-gnu/amdvlk32.so|/opt/amdvlk/lib/i386-linux-gnu/amdvlk32.so|g" "${pkgdir}"/opt/amdvlk/etc/vulkan/icd.d/amd_icd32.json
+
+	rm -rf "${pkgdir}"/opt/amdvlk/etc/vulkan/implicit_layer.d
+
+	msg2 "#################################################################"
+	msg2 ""
+	msg2 "64-bit loader in /opt/amdvlk/etc/vulkan/icd.d/amd_icd64.json"
+	msg2 "32-bit loader in /opt/amdvlk/etc/vulkan/icd.d/amd_icd32.json"
+	msg2 ""
+	msg2 "64-bit lib in /opt/amdvlk/lib/x86_64-linux-gnu/amdvlk64.so"
+	msg2 "32-bit lib in /opt/amdvlk/lib/i386-linux-gnu/amdvlk32.so"
+	msg2 ""
+	msg2 "changelog and copyright in /usr/share/doc/amdvlk"
+	msg2 ""
+	msg2 "#################################################################"
+}
